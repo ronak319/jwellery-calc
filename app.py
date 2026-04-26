@@ -1,17 +1,16 @@
 import streamlit as st
 
-st.set_page_config(page_title="Jewelry Calc", page_icon="💎")
-
-# UI Styling
+# Fix: Remove the indentation inside the triple quotes and check argument name
 st.markdown("""
-    <style>
-    .main { background-color: #ffffff; }
-    .stMetric { background-color: #f0f2f6; padding: 15px; border-radius: 10px; }
-    </style>
-    """, unsafe_allow_index=True)
+<style>
+.main { background-color: #f5f5f5; }
+div[data-testid="stMetricValue"] { font-size: 24px; color: #d4af37; }
+</style>
+""", unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
 
 st.title("💎 Jewelry Calculator")
-st.write("हजारीमल सुगन चंद बैद - ज्वेलरी गणना")
+st.subheader("हजारीमल सुगन चंद बैद - ज्वेलरी गणना")
+
 
 # Input Section
 with st.container():
