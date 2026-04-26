@@ -208,14 +208,44 @@ def show_historical_page():
 
 @st.cache_data
 def get_historical_gold_rate(date):
-    # Mock function - replace with real API call
-    # For demo, return a rate based on date
-    base_rate = 50000  # Base rate
-    days_diff = (datetime.now().date() - date).days
-    # Simulate price variation
-    variation = (days_diff % 100 - 50) * 100  # Random-ish variation
-    rate = base_rate + variation
-    return max(rate, 30000)  # Minimum rate
+    # Replace with your Metal Price API key (sign up at https://metalpriceapi.com/)
+    # Free tier: 50 requests/month
+    api_key = st.secrets.get("metal_api_key", None)
+    
+    if not api_key:
+        # Fallback to mock data if no API key
+        st.warning("⚠️ No API key found. Using mock data. Add 'metal_api_key' to secrets.toml for real data.")
+        base_rate = 50000  # Base rate in INR (approximate)
+        days_diff = (datetime.now().date() - date).days
+        variation = (days_diff % 100 - 50) * 100
+        rate = base_rate + variation
+        return max(rate, 30000)
+    
+    # Fetch real historical gold price
+    url = f"https://api.metalpriceapi.com/v1/{date.strftime('%Y-%m-%d')}?api_key={api_key}&base=USD&currencies=XAU"
+    
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        
+        # XAU is gold price in USD per troy ounce
+        usd_per_ounce = data['rates']['XAU']
+        
+        # Convert to INR (approximate conversion rate - in production, use a currency API)
+        usd_to_inr = 83.0  # Approximate USD to INR rate
+        inr_per_gram = (usd_per_ounce / 31.1035) * usd_to_inr  # Convert ounce to gram
+        
+        return round(inr_per_gram, 2)
+        
+    except requests.RequestException as e:
+        st.error(f"Failed to fetch gold price: {e}")
+        # Fallback to mock data
+        base_rate = 50000
+        days_diff = (datetime.now().date() - date).days
+        variation = (days_diff % 100 - 50) * 100
+        rate = base_rate + variation
+        return max(rate, 30000)
 
 def show_home_page():
     st.title("💎 ज्वेलरी कैलकुलेटर")
