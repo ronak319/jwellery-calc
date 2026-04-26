@@ -30,6 +30,10 @@ price_mom = (weight * (purity / 100) * rate_24k) * 1.08
 # 3. Profit
 commission = price_customer - price_mom
 
+# Calculations for Fine and Khad
+fine_gold_weight = weight * (purity / 100)
+khad_weight = weight - fine_gold_weight
+
 if price_customer > 0:
     margin_pct = (commission / price_customer) * 100
 else:
@@ -44,6 +48,13 @@ col2.metric("मम्मी की लागत", f"₹{price_mom:,.0f}")
 
 st.subheader(f"आपका मुनाफा: ₹{commission:,.0f}")
 st.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
+
+st.divider()
+f_col1, f_col2 = st.columns(2)
+with f_col1:
+    st.metric("शुद्ध सोना (Fine Gold)", f"{fine_gold_weight:.3f} g")
+with f_col2:
+    st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
 if commission < 0:
     st.error("Warning: Selling below cost!")
