@@ -21,30 +21,121 @@ st.title("💎 ज्वेलरी कैलकुलेटर")
 with st.sidebar:
     st.header("🧮 कैलकुलेटर")
     
-    col1, col2 = st.columns(2)
+    # Calculator state
+    if 'calc_display' not in st.session_state:
+        st.session_state.calc_display = "0"
+    
+    # Display
+    st.text_input("Display", value=st.session_state.calc_display, key="calc_display_input", disabled=True)
+    
+    # Button layout
+    col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
-        num1 = st.number_input("नंबर 1", value=0.0, step=0.1, key="calc_num1")
+        if st.button("7", key="btn7"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "7"
+            else:
+                st.session_state.calc_display += "7"
+            st.rerun()
+        
+        if st.button("4", key="btn4"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "4"
+            else:
+                st.session_state.calc_display += "4"
+            st.rerun()
+        
+        if st.button("1", key="btn1"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "1"
+            else:
+                st.session_state.calc_display += "1"
+            st.rerun()
+        
+        if st.button("0", key="btn0"):
+            if st.session_state.calc_display != "0":
+                st.session_state.calc_display += "0"
+            st.rerun()
+    
     with col2:
-        operation = st.selectbox("ऑपरेशन", ["+", "-", "*", "/"], key="calc_op")
+        if st.button("8", key="btn8"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "8"
+            else:
+                st.session_state.calc_display += "8"
+            st.rerun()
+        
+        if st.button("5", key="btn5"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "5"
+            else:
+                st.session_state.calc_display += "5"
+            st.rerun()
+        
+        if st.button("2", key="btn2"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "2"
+            else:
+                st.session_state.calc_display += "2"
+            st.rerun()
+        
+        if st.button(".", key="btn_dot"):
+            if "." not in st.session_state.calc_display:
+                st.session_state.calc_display += "."
+            st.rerun()
     
-    num2 = st.number_input("नंबर 2", value=0.0, step=0.1, key="calc_num2")
+    with col3:
+        if st.button("9", key="btn9"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "9"
+            else:
+                st.session_state.calc_display += "9"
+            st.rerun()
+        
+        if st.button("6", key="btn6"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "6"
+            else:
+                st.session_state.calc_display += "6"
+            st.rerun()
+        
+        if st.button("3", key="btn3"):
+            if st.session_state.calc_display == "0":
+                st.session_state.calc_display = "3"
+            else:
+                st.session_state.calc_display += "3"
+            st.rerun()
+        
+        if st.button("=", key="btn_equals"):
+            try:
+                result = eval(st.session_state.calc_display)
+                st.session_state.calc_display = str(result)
+            except:
+                st.session_state.calc_display = "Error"
+            st.rerun()
     
-    if st.button("गणना करें", key="calc_button"):
-        try:
-            if operation == "+":
-                result = num1 + num2
-            elif operation == "-":
-                result = num1 - num2
-            elif operation == "*":
-                result = num1 * num2
-            elif operation == "/":
-                if num2 != 0:
-                    result = num1 / num2
-                else:
-                    result = "शून्य से भाग नहीं कर सकते"
-            st.success(f"परिणाम: {result}")
-        except:
-            st.error("गलत इनपुट")
+    with col4:
+        if st.button("/", key="btn_div"):
+            st.session_state.calc_display += "/"
+            st.rerun()
+        
+        if st.button("*", key="btn_mul"):
+            st.session_state.calc_display += "*"
+            st.rerun()
+        
+        if st.button("-", key="btn_sub"):
+            st.session_state.calc_display += "-"
+            st.rerun()
+        
+        if st.button("+", key="btn_add"):
+            st.session_state.calc_display += "+"
+            st.rerun()
+    
+    # Clear button
+    if st.button("Clear", key="btn_clear"):
+        st.session_state.calc_display = "0"
+        st.rerun()
 
 # Input Section
 with st.container():
@@ -128,5 +219,3 @@ with st.container():
 
 if commission < 0:
     st.error("⚠️ चेतावनी: लागत से नीचे बेच रहे हैं!")
-elif commission > 0:
-    st.balloons()
