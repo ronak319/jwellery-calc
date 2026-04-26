@@ -17,6 +17,25 @@ div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight:
 
 st.title("💎 ज्वेलरी कैलकुलेटर")
 
+import streamlit as st
+
+# TODO: Future features and improvements for the Jewelry Calculator app
+# - Fetch live gold prices from API and historical gold rates of last 30 days, last 12 months, last 10 years. every 10 years
+# - gold related news and nudge to buy sell or wait
+# - Add invoice generator functionality
+# - Implement saving calculations with item names
+
+
+# Fix: Remove the indentation inside the triple quotes and check argument name
+st.markdown("""
+<style>
+.main { background-color: #f5f5f5; }
+div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight: bold; }
+</style>
+""", unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
+
+st.title("💎 ज्वेलरी कैलकुलेटर")
+
 # Sidebar Calculator
 with st.sidebar:
     st.header("🧮 कैलकुलेटर")
@@ -28,93 +47,36 @@ with st.sidebar:
     # Display
     st.code(st.session_state.calc_display, language=None)
     
-    # Button layout
-    col1, col2, col3, col4 = st.columns(4)
+    # Button layout - optimized with fewer columns for faster rendering
+    cols = st.columns(4)
     
-    with col1:
-        if st.button("7", key="btn7"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "7"
-            else:
-                st.session_state.calc_display += "7"
-        
-        if st.button("4", key="btn4"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "4"
-            else:
-                st.session_state.calc_display += "4"
-        
-        if st.button("1", key="btn1"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "1"
-            else:
-                st.session_state.calc_display += "1"
-        
-        if st.button("0", key="btn0"):
-            if st.session_state.calc_display != "0":
-                st.session_state.calc_display += "0"
+    # Define button actions
+    buttons = [
+        ("7", "4", "1", "0"),
+        ("8", "5", "2", "."),
+        ("9", "6", "3", "="),
+        ("/", "*", "-", "+")
+    ]
     
-    with col2:
-        if st.button("8", key="btn8"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "8"
-            else:
-                st.session_state.calc_display += "8"
-        
-        if st.button("5", key="btn5"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "5"
-            else:
-                st.session_state.calc_display += "5"
-        
-        if st.button("2", key="btn2"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "2"
-            else:
-                st.session_state.calc_display += "2"
-        
-        if st.button(".", key="btn_dot"):
-            if "." not in st.session_state.calc_display:
-                st.session_state.calc_display += "."
-    
-    with col3:
-        if st.button("9", key="btn9"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "9"
-            else:
-                st.session_state.calc_display += "9"
-        
-        if st.button("6", key="btn6"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "6"
-            else:
-                st.session_state.calc_display += "6"
-        
-        if st.button("3", key="btn3"):
-            if st.session_state.calc_display == "0":
-                st.session_state.calc_display = "3"
-            else:
-                st.session_state.calc_display += "3"
-        
-        if st.button("=", key="btn_equals"):
-            try:
-                result = eval(st.session_state.calc_display)
-                st.session_state.calc_display = str(result)
-            except:
-                st.session_state.calc_display = "Error"
-    
-    with col4:
-        if st.button("/", key="btn_div"):
-            st.session_state.calc_display += "/"
-        
-        if st.button("*", key="btn_mul"):
-            st.session_state.calc_display += "*"
-        
-        if st.button("-", key="btn_sub"):
-            st.session_state.calc_display += "-"
-        
-        if st.button("+", key="btn_add"):
-            st.session_state.calc_display += "+"
+    for i, row in enumerate(buttons):
+        for j, btn in enumerate(row):
+            if cols[j].button(btn, key=f"btn_{i}_{j}"):
+                if btn.isdigit():
+                    if st.session_state.calc_display == "0":
+                        st.session_state.calc_display = btn
+                    else:
+                        st.session_state.calc_display += btn
+                elif btn == ".":
+                    if "." not in st.session_state.calc_display:
+                        st.session_state.calc_display += "."
+                elif btn in "+-*/":
+                    st.session_state.calc_display += btn
+                elif btn == "=":
+                    try:
+                        result = eval(st.session_state.calc_display)
+                        st.session_state.calc_display = str(result)
+                    except:
+                        st.session_state.calc_display = "Error"
     
     # Clear button
     if st.button("Clear", key="btn_clear"):
@@ -128,32 +90,39 @@ with st.container():
     cust_making = st.number_input("घड़ाई %", value=13.0, step=0.1)
 
 
-# --- 1. Basic Fine Gold Weight ---
-# This was missing or named differently, causing the NameError
-fine_gold = weight * (purity / 100)
+@st.cache_data
+def calculate_jewelry_metrics(rate_24k, weight, purity, cust_making):
+    # --- 1. Basic Fine Gold Weight ---
+    fine_gold = weight * (purity / 100)
 
-# --- 2. Customer Side Calculations ---
-price_customer = rate_24k * weight * ((purity + cust_making) / 100)
-fine_making_cust = weight * (cust_making / 100)
-total_fine_cust = fine_gold + fine_making_cust
+    # --- 2. Customer Side Calculations ---
+    price_customer = rate_24k * weight * ((purity + cust_making) / 100)
+    fine_making_cust = weight * (cust_making / 100)
+    total_fine_cust = fine_gold + fine_making_cust
 
-# --- 3. Mom's Side Calculations ---
-# Mom's cost formula: (Weight * Purity * Rate) * 1.08
-price_mom = (weight * (purity / 100) * rate_24k) * 1.08
-fine_making_mom = fine_gold * 0.08
-total_fine_mom = fine_gold + fine_making_mom
+    # --- 3. Mom's Side Calculations ---
+    price_mom = (weight * (purity / 100) * rate_24k) * 1.08
+    fine_making_mom = fine_gold * 0.08
+    total_fine_mom = fine_gold + fine_making_mom
 
-# --- 4. Profit Calculations ---
-commission = price_customer - price_mom
-fine_profit = total_fine_cust - total_fine_mom
+    # --- 4. Profit Calculations ---
+    commission = price_customer - price_mom
+    fine_profit = total_fine_cust - total_fine_mom
 
-if price_customer > 0:
-    margin_pct = (commission / price_customer) * 100
-else:
-    margin_pct = 0
+    if price_customer > 0:
+        margin_pct = (commission / price_customer) * 100
+    else:
+        margin_pct = 0
 
-# Calculate Khad Weight
-khad_weight = weight - fine_gold
+    # Calculate Khad Weight
+    khad_weight = weight - fine_gold
+    
+    return fine_gold, price_customer, price_mom, commission, margin_pct, khad_weight, fine_making_cust, total_fine_cust, fine_making_mom, total_fine_mom, fine_profit
+
+# Perform calculations
+fine_gold, price_customer, price_mom, commission, margin_pct, khad_weight, fine_making_cust, total_fine_cust, fine_making_mom, total_fine_mom, fine_profit = calculate_jewelry_metrics(
+    rate_24k, weight, purity, cust_making
+)
 
 st.divider()
 
