@@ -219,12 +219,6 @@ def get_historical_gold_rate(date):
     rate = base_rate + variation
     return max(rate, 30000)  # Minimum rate
 
-# Page routing
-if st.session_state.current_page == "home":
-    show_home_page()
-elif st.session_state.current_page == "historical":
-    show_historical_page()
-
 def show_home_page():
     st.title("💎 ज्वेलरी कैलकुलेटर")
 
@@ -317,3 +311,9 @@ def show_home_page():
 
     if commission < 0:
         st.error("⚠️ चेतावनी: लागत से नीचे बेच रहे हैं!")
+
+# Page routing
+if st.session_state.current_page == "home":
+    show_home_page()
+elif st.session_state.current_page == "historical":
+    show_historical_page()
