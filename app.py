@@ -1,23 +1,4 @@
 import streamlit as st
-
-# TODO: Future features and improvements for the Jewelry Calculator app
-# - Fetch live gold prices from API and historical gold rates of last 30 days, last 12 months, last 10 years. every 10 years
-# - gold related news and nudge to buy sell or wait
-# - Add invoice generator functionality
-# - Implement saving calculations with item names
-
-
-# Fix: Remove the indentation inside the triple quotes and check argument name
-st.markdown("""
-<style>
-.main { background-color: #f5f5f5; }
-div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight: bold; }
-</style>
-""", unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
-
-st.title("💎 ज्वेलरी कैलकुलेटर")
-
-import streamlit as st
 import requests
 from datetime import datetime, timedelta
 
@@ -35,6 +16,8 @@ st.markdown("""
 div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
+
+st.title("💎 ज्वेलरी कैलकुलेटर")
 
 # Navigation
 pages = {
@@ -202,7 +185,37 @@ with st.sidebar:
     </script>
     """
     
-    st.components.v1.html(calculator_html, height=300)
+    st.html(calculator_html, height=300)
+
+def show_historical_page():
+    st.title("📈 Historical Gold Rates")
+    
+    st.markdown("### Select a date to check historical gold rates")
+    
+    # Date selector
+    selected_date = st.date_input("Select Date", value=datetime.now() - timedelta(days=1), 
+                                  min_value=datetime.now() - timedelta(days=365*10),
+                                  max_value=datetime.now() - timedelta(days=1))
+    
+    if st.button("Get Gold Rate", key="get_rate"):
+        with st.spinner("Fetching historical gold rate..."):
+            # Mock API call - in real app, use actual gold price API
+            rate = get_historical_gold_rate(selected_date)
+            st.success(f"Gold rate on {selected_date.strftime('%Y-%m-%d')}: ₹{rate:,.0f} per gram (24K)")
+            
+            # Show some additional info
+            st.info("This is a demo. In production, this would fetch real historical data from a gold price API.")
+
+@st.cache_data
+def get_historical_gold_rate(date):
+    # Mock function - replace with real API call
+    # For demo, return a rate based on date
+    base_rate = 50000  # Base rate
+    days_diff = (datetime.now() - date).days
+    # Simulate price variation
+    variation = (days_diff % 100 - 50) * 100  # Random-ish variation
+    rate = base_rate + variation
+    return max(rate, 30000)  # Minimum rate
 
 # Page routing
 if st.session_state.current_page == "home":
@@ -302,33 +315,3 @@ def show_home_page():
 
     if commission < 0:
         st.error("⚠️ चेतावनी: लागत से नीचे बेच रहे हैं!")
-
-def show_historical_page():
-    st.title("📈 Historical Gold Rates")
-    
-    st.markdown("### Select a date to check historical gold rates")
-    
-    # Date selector
-    selected_date = st.date_input("Select Date", value=datetime.now() - timedelta(days=1), 
-                                  min_value=datetime.now() - timedelta(days=365*10),
-                                  max_value=datetime.now() - timedelta(days=1))
-    
-    if st.button("Get Gold Rate", key="get_rate"):
-        with st.spinner("Fetching historical gold rate..."):
-            # Mock API call - in real app, use actual gold price API
-            rate = get_historical_gold_rate(selected_date)
-            st.success(f"Gold rate on {selected_date.strftime('%Y-%m-%d')}: ₹{rate:,.0f} per gram (24K)")
-            
-            # Show some additional info
-            st.info("This is a demo. In production, this would fetch real historical data from a gold price API.")
-
-@st.cache_data
-def get_historical_gold_rate(date):
-    # Mock function - replace with real API call
-    # For demo, return a rate based on date
-    base_rate = 50000  # Base rate
-    days_diff = (datetime.now() - date).days
-    # Simulate price variation
-    variation = (days_diff % 100 - 50) * 100  # Random-ish variation
-    rate = base_rate + variation
-    return max(rate, 30000)  # Minimum rate
