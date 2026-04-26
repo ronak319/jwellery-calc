@@ -109,9 +109,9 @@ with st.container():
     with profit_col1:
         st.metric("💵 Total Profit", f"₹{commission:,.0f}")
     with profit_col2:
-        st.metric("📊 Profit Margin", f"{margin_pct:.2f}%")
+        st.metric("⚖️ Fine Gold Profit", f"{fine_profit:.3f}g")
     with profit_col3:
-        st.success(f"Fine Gold ⚖️ Fine Gold Profit: {fine_profit:.3f}g")
+        st.metric("📊 Profit Margin", f"{margin_pct:.2f}%")
 
 if commission < 0:
     st.error("⚠️ Warning: Selling below cost!")
