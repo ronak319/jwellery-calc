@@ -14,10 +14,10 @@ st.subheader("हजारीमल सुगन चंद बैद - ज्व
 
 # Input Section
 with st.container():
-    rate_24k = st.number_input("सोने का भाव (24K Rate)", value=75000, step=100)
+    rate_24k = st.number_input("1gm सोने का भाव (24K Rate)", value=75000, step=100)
     weight = st.number_input("कुल वजन (Net Weight)", value=10.000, step=0.001, format="%.3f")
-    purity = st.number_input("शुद्धता % (Purity/Touch)", value=91.60, step=0.1)
-    cust_making = st.number_input("ग्राहक घड़ाई % (Customer Making %)", value=12.0, step=0.1)
+    purity = st.number_input("शुद्धता % (Purity)", value=91.60, step=0.1)
+    cust_making = st.number_input("घड़ाई % ( Making %)", value=12.0, step=0.1)
 
 # Math Logic
 # 1. Cost to Customer = Gold * NetWeight * (Purity + Making)
@@ -44,7 +44,7 @@ st.divider()
 # Results Display
 col1, col2 = st.columns(2)
 col1.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
-col2.metric("मम्मी की लागत", f"₹{price_mom:,.0f}")
+col2.metric("सुनार की कीमत", f"₹{price_mom:,.0f}")
 
 st.subheader(f"आपका मुनाफा: ₹{commission:,.0f}")
 st.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
