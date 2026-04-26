@@ -17,6 +17,35 @@ div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight:
 
 st.title("💎 ज्वेलरी कैलकुलेटर")
 
+# Sidebar Calculator
+with st.sidebar:
+    st.header("🧮 कैलकुलेटर")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        num1 = st.number_input("नंबर 1", value=0.0, step=0.1, key="calc_num1")
+    with col2:
+        operation = st.selectbox("ऑपरेशन", ["+", "-", "*", "/"], key="calc_op")
+    
+    num2 = st.number_input("नंबर 2", value=0.0, step=0.1, key="calc_num2")
+    
+    if st.button("गणना करें", key="calc_button"):
+        try:
+            if operation == "+":
+                result = num1 + num2
+            elif operation == "-":
+                result = num1 - num2
+            elif operation == "*":
+                result = num1 * num2
+            elif operation == "/":
+                if num2 != 0:
+                    result = num1 / num2
+                else:
+                    result = "शून्य से भाग नहीं कर सकते"
+            st.success(f"परिणाम: {result}")
+        except:
+            st.error("गलत इनपुट")
+
 # Input Section
 with st.container():
     rate_24k = st.number_input("1 gm सोने का भाव", value=15000, step=100)
