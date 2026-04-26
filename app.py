@@ -80,11 +80,13 @@ with ledger_col1:
         st.markdown("**⚖️ फाइन गोल्ड डिटेल (Fine Gold Details)**")
         detail_col1, detail_col2 = st.columns(2)
         with detail_col1:
-            st.metric("⚖️ शुद्ध सोना (Fine)", f"{fine_gold:.3f} g")
-            st.metric("🔄 खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
+            st.write(f"**शुद्ध सोना:** {fine_gold:.3f}g")
             st.write(f"**घड़ाई फाइन:** {fine_making_cust:.3f}g")
         with detail_col2:
             st.success(f"**कुल जमा फाइन:** {total_fine_cust:.3f}g")
+        
+        st.metric("⚖️ शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
+        st.metric("🔄 खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
 with ledger_col2:
     with st.container():
