@@ -72,6 +72,7 @@ with ledger_col1:
     with st.container():
         st.subheader("👤 ग्राहक का हिसाब")
         st.metric("💰 ग्राहक की कीमत", f"₹{price_customer:,.0f}")
+        st.write(f"**शुद्ध सोना:** {fine_gold:.3f}g")
         st.write(f"**घड़ाई फाइन:** {fine_making_cust:.3f}g")
         st.success(f"**कुल जमा फाइन:** {total_fine_cust:.3f}g")
 
@@ -79,6 +80,7 @@ with ledger_col2:
     with st.container():
         st.subheader("🏪 सुनार का हिसाब")
         st.metric("💰 सुनार की कीमत", f"₹{price_mom:,.0f}")
+        st.write(f"**शुद्ध सोना:** {fine_gold:.3f}g")
         st.write(f"**घड़ाई फाइन:** {fine_making_mom:.3f}g")
         st.info(f"**कुल लागत फाइन:** {total_fine_mom:.3f}g")
 
