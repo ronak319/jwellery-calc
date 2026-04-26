@@ -57,32 +57,102 @@ with st.sidebar:
     
     # Embed HTML Calculator
     calculator_html = """
-    <div style="font-family: Arial, sans-serif; max-width: 200px;">
-        <input type="text" id="calc-display" style="width: 100%; height: 40px; font-size: 18px; text-align: right; margin-bottom: 10px;" readonly>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
-            <button onclick="appendToDisplay('7')" style="height: 40px; font-size: 16px;">7</button>
-            <button onclick="appendToDisplay('8')" style="height: 40px; font-size: 16px;">8</button>
-            <button onclick="appendToDisplay('9')" style="height: 40px; font-size: 16px;">9</button>
-            <button onclick="appendToDisplay('/')" style="height: 40px; font-size: 16px;">/</button>
+    <style>
+        .calc-container {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 220px;
+        }
+        .calc-display {
+            width: 100%;
+            height: 45px;
+            font-size: 20px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+            font-weight: bold;
+        }
+        .calc-button {
+            height: 45px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .calc-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .number-btn {
+            background-color: #ffffff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .operator-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .equals-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .percent-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        .calc-bottom {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+    </style>
+    
+    <div class="calc-container">
+        <input type="text" id="calc-display" class="calc-display" readonly>
+        <div class="calc-grid">
+            <button onclick="appendToDisplay('7')" class="calc-button number-btn">7</button>
+            <button onclick="appendToDisplay('8')" class="calc-button number-btn">8</button>
+            <button onclick="appendToDisplay('9')" class="calc-button number-btn">9</button>
+            <button onclick="appendToDisplay('/')" class="calc-button operator-btn">/</button>
             
-            <button onclick="appendToDisplay('4')" style="height: 40px; font-size: 16px;">4</button>
-            <button onclick="appendToDisplay('5')" style="height: 40px; font-size: 16px;">5</button>
-            <button onclick="appendToDisplay('6')" style="height: 40px; font-size: 16px;">6</button>
-            <button onclick="appendToDisplay('*')" style="height: 40px; font-size: 16px;">*</button>
+            <button onclick="appendToDisplay('4')" class="calc-button number-btn">4</button>
+            <button onclick="appendToDisplay('5')" class="calc-button number-btn">5</button>
+            <button onclick="appendToDisplay('6')" class="calc-button number-btn">6</button>
+            <button onclick="appendToDisplay('*')" class="calc-button operator-btn">*</button>
             
-            <button onclick="appendToDisplay('1')" style="height: 40px; font-size: 16px;">1</button>
-            <button onclick="appendToDisplay('2')" style="height: 40px; font-size: 16px;">2</button>
-            <button onclick="appendToDisplay('3')" style="height: 40px; font-size: 16px;">3</button>
-            <button onclick="appendToDisplay('-')" style="height: 40px; font-size: 16px;">-</button>
+            <button onclick="appendToDisplay('1')" class="calc-button number-btn">1</button>
+            <button onclick="appendToDisplay('2')" class="calc-button number-btn">2</button>
+            <button onclick="appendToDisplay('3')" class="calc-button number-btn">3</button>
+            <button onclick="appendToDisplay('-')" class="calc-button operator-btn">-</button>
             
-            <button onclick="appendToDisplay('0')" style="height: 40px; font-size: 16px;">0</button>
-            <button onclick="appendToDisplay('.')" style="height: 40px; font-size: 16px;">.</button>
-            <button onclick="calculate()" style="height: 40px; font-size: 16px; background-color: #4CAF50; color: white;">=</button>
-            <button onclick="appendToDisplay('+')" style="height: 40px; font-size: 16px;">+</button>
+            <button onclick="appendToDisplay('0')" class="calc-button number-btn">0</button>
+            <button onclick="appendToDisplay('.')" class="calc-button number-btn">.</button>
+            <button onclick="calculate()" class="calc-button equals-btn">=</button>
+            <button onclick="appendToDisplay('+')" class="calc-button operator-btn">+</button>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 10px;">
-            <button onclick="applyPercent()" style="height: 40px; font-size: 16px; background-color: #2196F3; color: white;">%</button>
-            <button onclick="clearDisplay()" style="height: 40px; font-size: 16px; background-color: #f44336; color: white;">Clear</button>
+        <div class="calc-bottom">
+            <button onclick="applyPercent()" class="calc-button percent-btn">%</button>
+            <button onclick="clearDisplay()" class="calc-button clear-btn">Clear</button>
         </div>
     </div>
     
