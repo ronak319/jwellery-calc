@@ -80,7 +80,10 @@ with st.sidebar:
             <button onclick="calculate()" style="height: 40px; font-size: 16px; background-color: #4CAF50; color: white;">=</button>
             <button onclick="appendToDisplay('+')" style="height: 40px; font-size: 16px;">+</button>
         </div>
-        <button onclick="clearDisplay()" style="width: 100%; height: 40px; margin-top: 10px; font-size: 16px; background-color: #f44336; color: white;">Clear</button>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 10px;">
+            <button onclick="applyPercent()" style="height: 40px; font-size: 16px; background-color: #2196F3; color: white;">%</button>
+            <button onclick="clearDisplay()" style="height: 40px; font-size: 16px; background-color: #f44336; color: white;">Clear</button>
+        </div>
     </div>
     
     <script>
@@ -90,6 +93,16 @@ with st.sidebar:
         
         function clearDisplay() {
             document.getElementById('calc-display').value = '';
+        }
+        
+        function applyPercent() {
+            let current = document.getElementById('calc-display').value;
+            if (current) {
+                let num = parseFloat(current);
+                if (!isNaN(num)) {
+                    document.getElementById('calc-display').value = (num / 100).toString();
+                }
+            }
         }
         
         function calculate() {
@@ -108,6 +121,8 @@ with st.sidebar:
                 appendToDisplay(key);
             } else if (key === '+' || key === '-' || key === '*' || key === '/' || key === '.') {
                 appendToDisplay(key);
+            } else if (key === '%') {
+                applyPercent();
             } else if (key === 'Enter') {
                 calculate();
             } else if (key === 'Escape') {
