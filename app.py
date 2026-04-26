@@ -16,8 +16,6 @@ div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight:
 """, unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
 
 st.title("💎 ज्वेलरी कैलकुलेटर")
-st.subheader(" Mamol Baid ज्वेलरी गणना")
-
 
 # Input Section
 with st.container():
@@ -74,12 +72,14 @@ with ledger_col1:
     with st.container():
         st.subheader("👤 ग्राहक का हिसाब")
         st.metric("💰 ग्राहक की कीमत", f"₹{price_customer:,.0f}")
+        st.write(f"**घड़ाई फाइन:** {fine_making_cust:.3f}g")
         st.success(f"**कुल जमा फाइन:** {total_fine_cust:.3f}g")
 
 with ledger_col2:
     with st.container():
         st.subheader("🏪 सुनार का हिसाब")
         st.metric("💰 सुनार की कीमत", f"₹{price_mom:,.0f}")
+        st.write(f"**घड़ाई फाइन:** {fine_making_mom:.3f}g")
         st.info(f"**कुल लागत फाइन:** {total_fine_mom:.3f}g")
 
 st.divider()
