@@ -48,8 +48,6 @@ with st.sidebar:
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             max-width: 220px;
-            height: 300px;
-            overflow: auto;
         }
         .calc-display {
             width: 100%;
@@ -213,7 +211,7 @@ def get_historical_gold_rate(date):
     # Mock function - replace with real API call
     # For demo, return a rate based on date
     base_rate = 50000  # Base rate
-    days_diff = (datetime.now() - date).days
+    days_diff = (datetime.now().date() - date).days
     # Simulate price variation
     variation = (days_diff % 100 - 50) * 100  # Random-ish variation
     rate = base_rate + variation
