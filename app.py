@@ -30,6 +30,11 @@ price_mom = (weight * (purity / 100) * rate_24k) * 1.08
 # 3. Profit
 commission = price_customer - price_mom
 
+if price_customer > 0:
+    margin_pct = (commission / price_customer) * 100
+else:
+    margin_pct = 0
+
 st.divider()
 
 # Results Display
@@ -38,6 +43,7 @@ col1.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}
 col2.metric("मम्मी की लागत", f"₹{price_mom:,.0f}")
 
 st.subheader(f"आपका मुनाफा: ₹{commission:,.0f}")
+st.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
 
 if commission < 0:
     st.error("Warning: Selling below cost!")
