@@ -56,16 +56,14 @@ khad_weight = weight - fine_gold
 
 st.divider()
 
-# Summary Card
+# Jewelry Details Section
 with st.container():
-    st.markdown("### 📊 **Calculation Summary**")
-    col_summary1, col_summary2, col_summary3 = st.columns(3)
-    with col_summary1:
-        st.metric("💰 Customer Price", f"₹{price_customer:,.0f}")
-    with col_summary2:
-        st.metric("🏪 Sonar Price", f"₹{price_mom:,.0f}")
-    with col_summary3:
-        st.metric("📈 Profit Margin", f"{margin_pct:.2f}%")
+    st.markdown("### 💎 **Jewelry Details**")
+    jewel_col1, jewel_col2 = st.columns(2)
+    with jewel_col1:
+        st.metric("⚖️ Pure Gold Weight", f"{fine_gold:.3f} g")
+    with jewel_col2:
+        st.metric("🔄 Khad Weight", f"{khad_weight:.3f} g")
 
 st.divider()
 
@@ -78,8 +76,6 @@ with ledger_col1:
         st.metric("💰 ग्राहक की कीमत", f"₹{price_customer:,.0f}")
         
         st.markdown("**⚖️ फाइन गोल्ड डिटेल (Fine Gold Details)**")
-        st.metric("⚖️ शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
-        st.metric("🔄 खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
         st.write(f"**घड़ाई फाइन:** {fine_making_cust:.3f}g")
         st.success(f"**कुल जमा फाइन:** {total_fine_cust:.3f}g")
 
