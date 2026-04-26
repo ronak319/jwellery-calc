@@ -41,46 +41,27 @@ with st.sidebar:
     st.header("🧮 कैलकुलेटर")
     
     # Calculator state
-    if 'calc_display' not in st.session_state:
-        st.session_state.calc_display = "0"
+    if 'calc_result' not in st.session_state:
+        st.session_state.calc_result = ""
     
-    # Display
-    st.code(st.session_state.calc_display, language=None)
+    # Expression input
+    expression = st.text_input("Expression (e.g., 2+3*4)", value="", key="calc_expr")
     
-    # Button layout - optimized with fewer columns for faster rendering
-    cols = st.columns(4)
+    # Calculate button
+    if st.button("Calculate", key="calc_btn"):
+        try:
+            result = eval(expression)
+            st.session_state.calc_result = f"Result: {result}"
+        except:
+            st.session_state.calc_result = "Error: Invalid expression"
     
-    # Define button actions
-    buttons = [
-        ("7", "4", "1", "0"),
-        ("8", "5", "2", "."),
-        ("9", "6", "3", "="),
-        ("/", "*", "-", "+")
-    ]
-    
-    for i, row in enumerate(buttons):
-        for j, btn in enumerate(row):
-            if cols[j].button(btn, key=f"btn_{i}_{j}"):
-                if btn.isdigit():
-                    if st.session_state.calc_display == "0":
-                        st.session_state.calc_display = btn
-                    else:
-                        st.session_state.calc_display += btn
-                elif btn == ".":
-                    if "." not in st.session_state.calc_display:
-                        st.session_state.calc_display += "."
-                elif btn in "+-*/":
-                    st.session_state.calc_display += btn
-                elif btn == "=":
-                    try:
-                        result = eval(st.session_state.calc_display)
-                        st.session_state.calc_display = str(result)
-                    except:
-                        st.session_state.calc_display = "Error"
+    # Display result
+    if st.session_state.calc_result:
+        st.success(st.session_state.calc_result)
     
     # Clear button
-    if st.button("Clear", key="btn_clear"):
-        st.session_state.calc_display = "0"
+    if st.button("Clear", key="clear_btn"):
+        st.session_state.calc_result = ""
 
 # Input Section
 with st.container():
