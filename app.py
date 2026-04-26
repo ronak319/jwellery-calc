@@ -48,6 +48,8 @@ with st.sidebar:
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             max-width: 220px;
+            height: 300px;
+            overflow: auto;
         }
         .calc-display {
             width: 100%;
@@ -185,8 +187,7 @@ with st.sidebar:
     </script>
     """
     
-    import streamlit.components.v1 as components
-    components.html(calculator_html, height=300)
+    st.html(calculator_html)
 
 def show_historical_page():
     st.title("📈 Historical Gold Rates")
