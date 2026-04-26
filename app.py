@@ -87,7 +87,7 @@ with ledger_col2:
         st.markdown("**⚖️ फाइन गोल्ड डिटेल (Fine Gold Details)**")
         detail_col1, detail_col2 = st.columns(2)
         with detail_col1:
-            st.write(f"**लागत फाइन:** {fine_making_mom:.3f}g")
+            st.write(f"**घड़ाई फाइन:** {fine_making_mom:.3f}g")
         with detail_col2:
             st.info(f"**कुल लागत फाइन:** {total_fine_mom:.3f}g")
 
