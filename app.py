@@ -4,7 +4,7 @@ import streamlit as st
 st.markdown("""
 <style>
 .main { background-color: #f5f5f5; }
-div[data-testid="stMetricValue"] { font-size: 24px; color: #d4af37; }
+div[data-testid="stMetricValue"] { font-size: 24px; color: #ffff00; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True) # Changed from unsafe_allow_index to unsafe_allow_html
 
@@ -51,9 +51,7 @@ st.divider()
 
 # Customer Section
 st.subheader("ग्राहक का हिसाब (Customer Account)")
-col1, col2 = st.columns(2)
-col1.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
-col2.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
+st.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
 
 st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
 st.write(f"शुद्ध सोना (Fine): {fine_gold:.3f}g")
@@ -61,6 +59,7 @@ st.write(f"घड़ाई फाइन (Making Fine): {fine_making_cust:.3f}g")
 st.info(f"कुल जमा फाइन: {total_fine_cust:.3f}g")
 
 st.metric("शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
+st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
 st.divider()
 
@@ -69,15 +68,13 @@ st.subheader("सुनार/मम्मी का हिसाब (Sonar/Mom 
 st.metric("सुनार की कीमत", f"₹{price_mom:,.0f}")
 
 st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
-st.write(f"शुद्ध सोना (Fine): {fine_gold:.3f}g")
 st.write(f"लागत फाइन (8% Making): {fine_making_mom:.3f}g")
 st.info(f"कुल लागत फाइन: {total_fine_mom:.3f}g")
-
-st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
 st.divider()
 
 # Overall Profit
+st.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
 st.subheader(f"आपका मुनाफा: ₹{commission:,.0f}")
 st.success(f"कुल मुनाफा फाइन: {fine_profit:.3f} ग्राम")
 
