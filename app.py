@@ -16,8 +16,8 @@ st.subheader(" Mamol Baid ज्वेलरी गणना")
 with st.container():
     rate_24k = st.number_input("1 gm सोने का भाव (24K Rate)", value=15000, step=100)
     weight = st.number_input("कुल वजन (Net Weight)", value=10.000, step=0.001, format="%.3f")
-    purity = st.number_input("शुद्धता % (Purity)", value=91.60, step=0.1)
-    cust_making = st.number_input("घड़ाई % ( Making %)", value=12.0, step=0.1)
+    purity = st.number_input("शुद्धता % (Purity)", value=85, step=0.1)
+    cust_making = st.number_input("घड़ाई % ( Making %)", value=13.0, step=0.1)
 
 
 # --- 1. Basic Fine Gold Weight ---
@@ -49,27 +49,28 @@ khad_weight = weight - fine_gold
 
 st.divider()
 
-# Customer Section
-st.subheader("ग्राहक का हिसाब (Customer Account)")
-st.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
+# Ledger Form: Customer (Left) and Mom/Sonar (Right)
+ledger_col1, ledger_col2 = st.columns(2)
 
-st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
-st.write(f"शुद्ध सोना (Fine): {fine_gold:.3f}g")
-st.write(f"घड़ाई फाइन (Making Fine): {fine_making_cust:.3f}g")
-st.info(f"कुल जमा फाइन: {total_fine_cust:.3f}g")
+with ledger_col1:
+    st.subheader("ग्राहक का हिसाब (Customer Account)")
+    st.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
+    
+    st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
+    st.write(f"शुद्ध सोना (Fine): {fine_gold:.3f}g")
+    st.write(f"घड़ाई फाइन (Making Fine): {fine_making_cust:.3f}g")
+    st.info(f"कुल जमा फाइन: {total_fine_cust:.3f}g")
+    
+    st.metric("शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
+    st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
-st.metric("शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
-st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
-
-st.divider()
-
-# Mom/Sonar Section
-st.subheader("सुनार/मम्मी का हिसाब (Sonar/Mom Account)")
-st.metric("सुनार की कीमत", f"₹{price_mom:,.0f}")
-
-st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
-st.write(f"लागत फाइन (8% Making): {fine_making_mom:.3f}g")
-st.info(f"कुल लागत फाइन: {total_fine_mom:.3f}g")
+with ledger_col2:
+    st.subheader("सुनार/मम्मी का हिसाब (Sonar/Mom Account)")
+    st.metric("सुनार की कीमत", f"₹{price_mom:,.0f}")
+    
+    st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
+    st.write(f"लागत फाइन (8% Making): {fine_making_mom:.3f}g")
+    st.info(f"कुल लागत फाइन: {total_fine_mom:.3f}g")
 
 st.divider()
 
