@@ -26,7 +26,7 @@ with st.sidebar:
         st.session_state.calc_display = "0"
     
     # Display
-    st.text_input("Display", value=st.session_state.calc_display, key="calc_display_input", disabled=True)
+    st.code(st.session_state.calc_display, language=None)
     
     # Button layout
     col1, col2, col3, col4 = st.columns(4)
@@ -37,26 +37,22 @@ with st.sidebar:
                 st.session_state.calc_display = "7"
             else:
                 st.session_state.calc_display += "7"
-            st.rerun()
         
         if st.button("4", key="btn4"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "4"
             else:
                 st.session_state.calc_display += "4"
-            st.rerun()
         
         if st.button("1", key="btn1"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "1"
             else:
                 st.session_state.calc_display += "1"
-            st.rerun()
         
         if st.button("0", key="btn0"):
             if st.session_state.calc_display != "0":
                 st.session_state.calc_display += "0"
-            st.rerun()
     
     with col2:
         if st.button("8", key="btn8"):
@@ -64,26 +60,22 @@ with st.sidebar:
                 st.session_state.calc_display = "8"
             else:
                 st.session_state.calc_display += "8"
-            st.rerun()
         
         if st.button("5", key="btn5"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "5"
             else:
                 st.session_state.calc_display += "5"
-            st.rerun()
         
         if st.button("2", key="btn2"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "2"
             else:
                 st.session_state.calc_display += "2"
-            st.rerun()
         
         if st.button(".", key="btn_dot"):
             if "." not in st.session_state.calc_display:
                 st.session_state.calc_display += "."
-            st.rerun()
     
     with col3:
         if st.button("9", key="btn9"):
@@ -91,21 +83,18 @@ with st.sidebar:
                 st.session_state.calc_display = "9"
             else:
                 st.session_state.calc_display += "9"
-            st.rerun()
         
         if st.button("6", key="btn6"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "6"
             else:
                 st.session_state.calc_display += "6"
-            st.rerun()
         
         if st.button("3", key="btn3"):
             if st.session_state.calc_display == "0":
                 st.session_state.calc_display = "3"
             else:
                 st.session_state.calc_display += "3"
-            st.rerun()
         
         if st.button("=", key="btn_equals"):
             try:
@@ -113,29 +102,23 @@ with st.sidebar:
                 st.session_state.calc_display = str(result)
             except:
                 st.session_state.calc_display = "Error"
-            st.rerun()
     
     with col4:
         if st.button("/", key="btn_div"):
             st.session_state.calc_display += "/"
-            st.rerun()
         
         if st.button("*", key="btn_mul"):
             st.session_state.calc_display += "*"
-            st.rerun()
         
         if st.button("-", key="btn_sub"):
             st.session_state.calc_display += "-"
-            st.rerun()
         
         if st.button("+", key="btn_add"):
             st.session_state.calc_display += "+"
-            st.rerun()
     
     # Clear button
     if st.button("Clear", key="btn_clear"):
         st.session_state.calc_display = "0"
-        st.rerun()
 
 # Input Section
 with st.container():
