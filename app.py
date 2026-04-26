@@ -185,7 +185,8 @@ with st.sidebar:
     </script>
     """
     
-    st.html(calculator_html, height=300)
+    import streamlit.components.v1 as components
+    components.html(calculator_html, height=300)
 
 def show_historical_page():
     st.title("📈 Historical Gold Rates")
