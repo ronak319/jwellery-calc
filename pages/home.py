@@ -3,7 +3,6 @@
 import streamlit as st
 from datetime import datetime, timedelta
 import config
-from components.calculator import get_calculator_component
 from utils.api import get_historical_gold_rate
 
 @st.cache_data

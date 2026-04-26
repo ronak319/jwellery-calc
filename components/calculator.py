@@ -1,5 +1,7 @@
 # Calculator HTML component for the Jewelry Calculator app
 
+from utils.styles import CALCULATOR_STYLES
+
 CALCULATOR_HTML = """
 <div class="calc-container">
     <input type="text" id="calc-display" class="calc-display" readonly>
