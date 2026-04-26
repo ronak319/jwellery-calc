@@ -1,5 +1,12 @@
 import streamlit as st
 
+# TODO: Future features and improvements for the Jewelry Calculator app
+# - Fetch live gold prices from API and historical gold rates of last 30 days, last 12 months, last 10 years. every 10 years
+# - gold related news and nudge to buy sell or wait
+# - Add invoice generator functionality
+# - Implement saving calculations with item names
+
+
 # Fix: Remove the indentation inside the triple quotes and check argument name
 st.markdown("""
 <style>
@@ -49,37 +56,65 @@ khad_weight = weight - fine_gold
 
 st.divider()
 
+# Summary Card
+with st.container():
+    st.markdown("### 📊 **Calculation Summary**")
+    col_summary1, col_summary2, col_summary3 = st.columns(3)
+    with col_summary1:
+        st.metric("💰 Customer Price", f"₹{price_customer:,.0f}")
+    with col_summary2:
+        st.metric("🏪 Sonar Price", f"₹{price_mom:,.0f}")
+    with col_summary3:
+        st.metric("📈 Profit Margin", f"{margin_pct:.2f}%")
+
+st.divider()
+
 # Ledger Form: Customer (Left) and Mom/Sonar (Right)
 ledger_col1, ledger_col2 = st.columns(2)
 
 with ledger_col1:
-    st.subheader("ग्राहक का हिसाब (Customer Account)")
-    st.metric("ग्राहक की कीमत", f"₹{price_customer:,.0f}")
-    
-    st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
-    st.write(f"शुद्ध सोना (Fine): {fine_gold:.3f}g")
-    st.write(f"घड़ाई फाइन (Making Fine): {fine_making_cust:.3f}g")
-    st.info(f"कुल जमा फाइन: {total_fine_cust:.3f}g")
-    
-    st.metric("शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
-    st.metric("खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
+    with st.container():
+        st.subheader("👤 ग्राहक का हिसाब (Customer Account)")
+        st.metric("💰 ग्राहक की कीमत", f"₹{price_customer:,.0f}")
+        
+        st.markdown("**⚖️ फाइन गोल्ड डिटेल (Fine Gold Details)**")
+        detail_col1, detail_col2 = st.columns(2)
+        with detail_col1:
+            st.write(f"**शुद्ध सोना:** {fine_gold:.3f}g")
+            st.write(f"**घड़ाई फाइन:** {fine_making_cust:.3f}g")
+        with detail_col2:
+            st.success(f"**कुल जमा फाइन:** {total_fine_cust:.3f}g")
+        
+        st.metric("⚖️ शुद्ध सोना (Fine Gold)", f"{fine_gold:.3f} g")
+        st.metric("🔄 खाद वजन (Khad Weight)", f"{khad_weight:.3f} g")
 
 with ledger_col2:
-    st.subheader("सुनार/मम्मी का हिसाब (Sonar/Mom Account)")
-    st.metric("सुनार की कीमत", f"₹{price_mom:,.0f}")
-    
-    st.write("**फाइन गोल्ड डिटेल (Fine Gold Details)**")
-    st.write(f"लागत फाइन (8% Making): {fine_making_mom:.3f}g")
-    st.info(f"कुल लागत फाइन: {total_fine_mom:.3f}g")
+    with st.container():
+        st.subheader("🏪 सुनार/मम्मी का हिसाब (Sonar/Mom Account)")
+        st.metric("💰 सुनार की कीमत", f"₹{price_mom:,.0f}")
+        
+        st.markdown("**⚖️ फाइन गोल्ड डिटेल (Fine Gold Details)**")
+        detail_col1, detail_col2 = st.columns(2)
+        with detail_col1:
+            st.write(f"**लागत फाइन:** {fine_making_mom:.3f}g")
+        with detail_col2:
+            st.info(f"**कुल लागत फाइन:** {total_fine_mom:.3f}g")
 
 st.divider()
 
-# Overall Profit
-st.metric("मुनाफा % (Margin over Sale)", f"{margin_pct:.2f}%")
-st.subheader(f"आपका मुनाफा: ₹{commission:,.0f}")
-st.success(f"कुल मुनाफा फाइन: {fine_profit:.3f} ग्राम")
+# Overall Profit Section
+with st.container():
+    st.markdown("### 🎯 **Overall Profit**")
+    profit_col1, profit_col2, profit_col3 = st.columns(3)
+    with profit_col1:
+        st.metric("💵 Total Profit", f"₹{commission:,.0f}")
+    with profit_col2:
+        st.metric("📊 Profit Margin", f"{margin_pct:.2f}%")
+    with profit_col3:
+        st.success(f"⚖️ Fine Gold Profit: {fine_profit:.3f}g")
 
 if commission < 0:
-    st.error("Warning: Selling below cost!")
+    st.error("⚠️ Warning: Selling below cost!")
 elif commission > 0:
     st.balloons()
+    st.success("✅ Profitable transaction!")
